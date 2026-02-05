@@ -1,0 +1,91 @@
+﻿{% extends "base/layout.html" %}
+{% block title %}정책 상세{% endblock %}
+{% block content %}
+<h2>정책 상세</h2>
+
+{% if success_message %}
+<p style="color: green;">{{ success_message }}</p>
+{% endif %}
+
+<div>
+    <p><strong>ID:</strong> {{ policy.id }}</p>
+    <p><strong>이름:</strong> {{ policy.name }}</p>
+    <p><strong>버전:</strong> {{ policy.version }}</p>
+    <p><strong>상태:</strong> <span class="badge {{ policy.status|lower }}">{{ policy.status }}</span></p>
+    <p><strong>작성일:</strong> {{ policy.created_at }}</p>
+    <p><strong>승인자:</strong> {{ policy.approved_by }}</p>
+    <p><strong>승인일:</strong> {{ policy.approved_at }}</p>
+</div>
+
+{% if can_edit and edit_mode %}
+<form method="post">
+    {% csrf_token %}
+    <label>정책 설명</label>
+    <textarea name="description" rows="4">{{ policy.description }}</textarea>
+
+    <label>규칙 (한 줄당 1개)</label>
+    <textarea name="rules" rows="4">{% for r in policy.rules %}{{ r }}
+{% endfor %}</textarea>
+
+    <label>검증 규칙 (한 줄당 1개)</label>
+    <textarea name="validation_rules" rows="4">{% for r in policy.validation_rules %}{{ r }}
+{% endfor %}</textarea>
+
+    <div class="button-bar">
+        <button type="submit">저장</button>
+        <a class="btn ghost" href="/management/policies/{{ policy.id }}/">취소</a>
+    </div>
+</form>
+{% else %}
+<div>
+    <p><strong>설명:</strong> {{ policy.description }}</p>
+</div>
+
+<h3>규칙</h3>
+{% if policy.rules %}
+<ul>
+    {% for r in policy.rules %}
+    <li>{{ r }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>규칙 없음</p>
+{% endif %}
+
+<h3>검증 규칙</h3>
+{% if policy.validation_rules %}
+<ul>
+    {% for r in policy.validation_rules %}
+    <li>{{ r }}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>검증 규칙 없음</p>
+{% endif %}
+{% endif %}
+
+{% if can_edit and not edit_mode %}
+<div class="action-stack">
+    <div class="button-bar">
+        <a class="btn full" href="/management/policies/{{ policy.id }}/?edit=1">수정</a>
+    </div>
+
+    {% if can_approve %}
+    <div class="button-bar">
+        <a class="btn primary" href="/management/policies/{{ policy.id }}/approve">승인</a>
+        <a class="btn primary" href="/management/policies/{{ policy.id }}/deploy">배포</a>
+    </div>
+    {% endif %}
+</div>
+{% else %}
+    {% if can_approve %}
+    <div class="action-stack">
+        <div class="button-bar">
+            <a class="btn primary" href="/management/policies/{{ policy.id }}/approve">승인</a>
+            <a class="btn primary" href="/management/policies/{{ policy.id }}/deploy">배포</a>
+        </div>
+    </div>
+    {% endif %}
+{% endif %}
+
+{% endblock %}

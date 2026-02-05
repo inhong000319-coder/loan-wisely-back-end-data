@@ -1,0 +1,14 @@
+﻿{% extends "base/layout.html" %}
+{% block title %}정책 승인{% endblock %}
+{% block content %}
+<h2>정책 승인</h2>
+<p>Policy ID: {{ policy_id }}</p>
+{% if success_message %}
+<p style="color: green;">{{ success_message }}</p>
+{% endif %}
+{% if result %}<pre>{{ result }}</pre>{% endif %}
+<form method="post">
+    {% csrf_token %}
+    <button type="submit">승인</button>
+</form>
+{% endblock %}

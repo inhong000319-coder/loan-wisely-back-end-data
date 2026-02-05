@@ -1,0 +1,59 @@
+﻿{% extends "base/layout.html" %}
+{% block title %}정책 목록{% endblock %}
+{% block content %}
+<h2>정책 목록</h2>
+
+<div class="section-gap">
+    {% include "components/filters.html" %}
+</div>
+
+{% if "POLICY_WRITER" in request.actor_roles or "SUPER_ADMIN" in request.actor_roles %}
+<div class="button-bar section-gap">
+    <a class="btn primary" href="/management/policies/new">+ 정책 등록</a>
+</div>
+{% endif %}
+
+{% if items %}
+<table class="section-gap">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>이름</th>
+            <th>버전</th>
+            <th>상태</th>
+            <th>작성자</th>
+            <th>수정일</th>
+            <th>액션</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><a href="/management/policies/{{ item.id }}/">{{ item.id }}</a></td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.version }}</td>
+            <td>
+                <span class="badge {{ item.status|lower }}">{{ item.status }}</span>
+            </td>
+            <td>{{ item.author }}</td>
+            <td>{{ item.updated_at }}</td>
+            <td>
+                {% if "POLICY_APPROVER" in request.actor_roles or "SUPER_ADMIN" in request.actor_roles %}
+                    <a class="btn" href="/management/policies/{{ item.id }}/approve">승인</a>
+                    <a class="btn" href="/management/policies/{{ item.id }}/deploy">배포</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>표시할 정책이 없습니다.</p>
+{% endif %}
+
+<div class="section-gap-lg">
+    {% include "components/pagination.html" %}
+</div>
+{% endblock %}

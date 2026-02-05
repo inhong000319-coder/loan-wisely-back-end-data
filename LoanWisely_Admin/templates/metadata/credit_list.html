@@ -1,0 +1,36 @@
+﻿{% extends "base/layout.html" %}
+{% block title %}Credit 메타데이터{% endblock %}
+{% block content %}
+<h2>Credit 메타데이터</h2>
+{% if items %}
+<table>
+    <thead>
+        <tr>
+            <th>버전 ID</th>
+            <th>상태</th>
+            <th>수정일</th>
+            <th>액션</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.version_id }}</td>
+            <td><span class="badge {{ item.status|lower }}">{{ item.status }}</span></td>
+            <td>{{ item.updated_at }}</td>
+            <td>
+                {% if "POLICY_APPROVER" in request.actor_roles or "SUPER_ADMIN" in request.actor_roles %}
+                    <a href="#">승인</a>
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>표시할 데이터가 없습니다.</p>
+{% endif %}
+{% include "components/pagination.html" %}
+{% endblock %}

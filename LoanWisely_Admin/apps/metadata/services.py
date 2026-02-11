@@ -21,6 +21,11 @@ def get_credit_meta_list(request, params=None):
         return _mock_credit_meta_list()
     return client.list_credit_meta(request, params=params)
 
+def get_active_credit_meta(request):
+    if settings.USE_MOCK_DATA:
+        return {"activeVersion": None}
+    return client.get_active_credit_meta(request)
+
 
 def get_financial_meta_list(request, params=None):
     if settings.USE_MOCK_DATA:

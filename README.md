@@ -1,13 +1,5 @@
-Loan Wisely Backend-Data
+﻿# Loan Wisely Backend-Data
 
-<<<<<<< HEAD
-jk123
-
-수정 260126 16:15
-
-수정 260126 16:17수정 260126 16:17
-=======
-로그인 기능 구현했서용 16:27
-
-로그인 해웅 16:40
->>>>>>> feature
+## 연동 참고 문서
+- 3프로젝트 연동 설계/명세 문서는 `integration_reference_docs.md`를 따른다.
+- 실행 및 테스트 가이드는 `integration_run_guide.md`를 따른다.

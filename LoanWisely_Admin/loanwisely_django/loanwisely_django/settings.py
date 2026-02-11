@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -120,3 +121,13 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+USE_MOCK_DATA = os.getenv("USE_MOCK_DATA", "false").lower() == "true"
+SPRING_BASE_URL = os.getenv("SPRING_BASE_URL", "http://localhost:8080")
+SPRING_TIMEOUT_SECS = int(os.getenv("SPRING_TIMEOUT_SECS", "3"))
+SPRING_ADMIN_TOKEN = os.getenv("SPRING_ADMIN_TOKEN", "")
+SPRING_API_KEY = os.getenv("SPRING_API_KEY", "dev-temp-key")
+SPRING_API_KEY_HEADER = os.getenv("SPRING_API_KEY_HEADER", "X-API-KEY")
+JWT_HEADER_NAME = os.getenv("JWT_HEADER_NAME", "Authorization")
+JWT_COOKIE_NAME = os.getenv("JWT_COOKIE_NAME", "admin_jwt")
+MANAGEMENT_BASE_PATH = os.getenv("MANAGEMENT_BASE_PATH", "/management")

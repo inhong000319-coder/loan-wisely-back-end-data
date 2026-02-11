@@ -8,6 +8,7 @@ def root_redirect(request):
 
 urlpatterns = [
     path("", root_redirect),
+    path("internal/", include("apps.internal.urls")),
     path("management/auth/", include("apps.auth.urls")),
     path("management/policies/", include("apps.policies.urls")),
     path("management/metadata/", include("apps.metadata.urls")),

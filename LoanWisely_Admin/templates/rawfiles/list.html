@@ -10,6 +10,7 @@
             <th>파일명</th>
             <th>상태</th>
             <th>업로드일</th>
+            <th>액션</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,16 @@
             <td>{{ item.name }}</td>
             <td>{{ item.status }}</td>
             <td>{{ item.uploaded_at }}</td>
+            <td>
+                <form method="post" action="/management/raw-files/{{ item.id }}/validate" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">검증</button>
+                </form>
+                <form method="post" action="/management/raw-files/{{ item.id }}/ingest" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">적재</button>
+                </form>
+            </td>
         </tr>
         {% endfor %}
     </tbody>

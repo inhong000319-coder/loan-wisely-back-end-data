@@ -1,0 +1,67 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>추천 상세</h2>
+    <p class="description">recommendationId로 추천 결과 및 추정 상세를 조회합니다.</p>
+</div>
+
+<form method="get" class="form-card" style="margin-bottom: 24px;">
+    <div class="form-row">
+        <label for="reco-id">recommendationId</label>
+        <input id="reco-id" name="id" value="{{ recommendation_id }}" placeholder="예: 123" />
+        <button class="btn primary" type="submit">조회</button>
+    </div>
+</form>
+
+{% if detail %}
+    <div class="card">
+        <h3>요약</h3>
+        <p>{{ detail.explain.summary }}</p>
+    </div>
+
+    <div class="card" style="margin-top: 16px;">
+        <h3>추천 상품</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>기관</th>
+                    <th>금리</th>
+                    <th>한도</th>
+                    <th>적합도</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for item in detail.products %}
+                <tr>
+                    <td>{{ item.productName }}</td>
+                    <td>{{ item.lenderName }}</td>
+                    <td>{{ item.rate }}</td>
+                    <td>{{ item.limit }}</td>
+                    <td>{{ item.suitabilityScore }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5">
+                        <div style="padding: 8px 0;">
+                            <strong>추정 상세</strong>
+                            {% if item.estimationDetails %}
+                                <ul class="inline-list">
+                                {% for detailItem in item.estimationDetails %}
+                                    <li>
+                                        {{ detailItem.factorName|default:detailItem.factorCode }}: {{ detailItem.factorValue }}
+                                    </li>
+                                {% endfor %}
+                                </ul>
+                            {% else %}
+                                <div class="muted">추정 상세 없음</div>
+                            {% endif %}
+                        </div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endif %}
+{% endblock %}

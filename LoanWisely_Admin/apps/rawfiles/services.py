@@ -19,3 +19,15 @@ def upload_raw_file(request, files):
     if settings.USE_MOCK_DATA:
         return {"status": "UPLOADED", "file_count": len(files)}
     return client.upload_raw_file(request, files=files)
+
+
+def validate_raw_file(request, upload_id):
+    if settings.USE_MOCK_DATA:
+        return {"ok": True, "errors": []}
+    return client.validate_raw_file(request, upload_id)
+
+
+def ingest_raw_file(request, upload_id):
+    if settings.USE_MOCK_DATA:
+        return {"inserted": 0, "updated": 0}
+    return client.ingest_raw_file(request, upload_id)

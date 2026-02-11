@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}배포 히스토리{% endblock %}
+
+{% block content %}
+<h2>배포 히스토리</h2>
+
+{% if error_message %}
+  <p class="error">{{ error_message }}</p>
+{% endif %}
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>정책 ID</th>
+      <th>이전 정책</th>
+      <th>액션</th>
+      <th>사유</th>
+      <th>배포자</th>
+      <th>배포 시각</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+      <tr>
+        <td>{{ item.policyId }}</td>
+        <td>{{ item.previousPolicyId|default:"-" }}</td>
+        <td>{{ item.action }}</td>
+        <td>{{ item.reason|default:"-" }}</td>
+        <td>{{ item.actorId|default:"system" }}</td>
+        <td>{{ item.deployedAt }}</td>
+      </tr>
+    {% empty %}
+      <tr>
+        <td colspan="6">히스토리가 없습니다.</td>
+      </tr>
+    {% endfor %}
+  </tbody>
+</table>
+
+<a class="btn" href="/management/policies/{{ policy_id }}/">돌아가기</a>
+{% endblock %}

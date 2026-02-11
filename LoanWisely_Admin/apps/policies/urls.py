@@ -7,4 +7,5 @@ urlpatterns = [
     path("<str:policy_id>/", views.policy_detail, name="policy_detail"),
     path("<str:policy_id>/approve", views.policy_approve, name="policy_approve"),
     path("<str:policy_id>/deploy", views.policy_deploy, name="policy_deploy"),
+    path("<str:policy_id>/deploy-history", views.policy_deploy_history, name="policy_deploy_history"),
 ]

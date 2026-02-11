@@ -22,7 +22,9 @@ class JwtAuthMiddleware:
             request.actor = {"id": "dev", "roles": ["SUPER_ADMIN"]}
             request.actor_id = "dev"
             request.actor_roles = ["SUPER_ADMIN"]
-            return self.get_response(request)
+            response = self.get_response(request)
+            response["X-Auth-Bypass"] = "1"
+            return response
 
         if request.path.startswith(PUBLIC_PATH_PREFIXES):
             return self.get_response(request)

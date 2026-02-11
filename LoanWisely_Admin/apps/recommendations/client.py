@@ -1,6 +1,7 @@
-﻿import requests
+import requests
 from django.conf import settings
 from apps.common.api import unwrap_api_response
+
 
 def _auth_header(request):
     header_name = getattr(settings, "JWT_HEADER_NAME", "Authorization")
@@ -29,10 +30,8 @@ def _headers(request):
     }
 
 
-def list_audits(request, params=None):
-    url = f"{settings.SPRING_BASE_URL}/api/admin/audit/summary"
-    resp = requests.get(url, headers=_headers(request), params=params, timeout=settings.SPRING_TIMEOUT_SECS)
+def get_recommendation_detail(request, recommendation_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/recommendations/{recommendation_id}"
+    resp = requests.get(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
     return unwrap_api_response(resp)
-
-

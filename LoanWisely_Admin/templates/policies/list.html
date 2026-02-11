@@ -41,6 +41,7 @@
                 {% if "POLICY_APPROVER" in request.actor_roles or "SUPER_ADMIN" in request.actor_roles %}
                     <a class="btn" href="/management/policies/{{ item.id }}/approve">승인</a>
                     <a class="btn" href="/management/policies/{{ item.id }}/deploy">배포</a>
+                    <a class="btn" href="/management/policies/{{ item.id }}/deploy-history">배포 히스토리</a>
                 {% else %}
                     -
                 {% endif %}

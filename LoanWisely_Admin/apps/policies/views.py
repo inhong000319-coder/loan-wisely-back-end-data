@@ -99,5 +99,16 @@ def policy_deploy(request, policy_id):
     return render(request, "policies/deploy.html", {"policy_id": policy_id})
 
 
+def policy_deploy_history(request, policy_id):
+    try:
+        items = services.get_deploy_history(request, policy_id)
+    except RequestException as exc:
+        return render_request_exception(request, exc)
+    return render(request, "policies/deploy_history.html", {
+        "policy_id": policy_id,
+        "items": items,
+    })
+
+
 def _split_lines(value: str):
     return [line.strip() for line in value.splitlines() if line.strip()]

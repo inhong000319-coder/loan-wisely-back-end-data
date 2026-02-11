@@ -1,5 +1,6 @@
 import requests
 from django.conf import settings
+from apps.common.api import unwrap_api_response
 
 
 def _auth_header(request):
@@ -13,6 +14,10 @@ def _auth_header(request):
     token = request.COOKIES.get(cookie_name)
     if token:
         return f"Bearer {token}"
+
+    fallback = getattr(settings, "SPRING_ADMIN_TOKEN", "")
+    if fallback:
+        return f"Bearer {fallback}"
 
     return ""
 
@@ -29,11 +34,11 @@ def list_credit_meta(request, params=None):
     url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/credit-dictionary/versions"
     resp = requests.get(url, headers=_headers(request), params=params, timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
-    return resp.json()
+    return unwrap_api_response(resp)
 
 
 def list_financial_meta(request, params=None):
     url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/financial-meta/versions"
     resp = requests.get(url, headers=_headers(request), params=params, timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
-    return resp.json()
+    return unwrap_api_response(resp)

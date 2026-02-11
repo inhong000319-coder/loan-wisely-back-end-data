@@ -80,3 +80,18 @@ def deploy_policy(request, policy_id):
     if settings.USE_MOCK_DATA:
         return {"policy_id": policy_id, "status": "DEPLOYED"}
     return client.deploy_policy(request, policy_id)
+
+
+def get_deploy_history(request, policy_id):
+    if settings.USE_MOCK_DATA:
+        return [
+            {
+                "policyId": policy_id,
+                "previousPolicyId": None,
+                "action": "DEPLOY",
+                "reason": "",
+                "actorId": "system",
+                "deployedAt": "2026-02-10 13:30",
+            }
+        ]
+    return client.deploy_history(request, policy_id)

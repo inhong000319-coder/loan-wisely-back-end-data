@@ -1,5 +1,7 @@
 ﻿from django.http import JsonResponse
+import json
 import logging
+from django.views.decorators.csrf import csrf_exempt
 from apps.metadata import services as metadata_services
 
 
@@ -18,3 +20,32 @@ def active_metadata(request):
         active_version = None
     return JsonResponse({"activeVersion": active_version})
 
+
+@csrf_exempt
+def create_financial_meta_version(request):
+    if request.method != "POST":
+        return JsonResponse({"message": "Method Not Allowed"}, status=405)
+
+    payload = {}
+    try:
+        if request.body:
+            payload = json.loads(request.body.decode("utf-8"))
+    except Exception:
+        payload = {}
+
+    result = metadata_services.create_financial_meta_version(
+        payload.get("baseVersionId"),
+        payload.get("versionLabel"),
+    )
+    return JsonResponse(result)
+
+
+@csrf_exempt
+def approve_financial_meta_version(request, version_id):
+    if request.method != "POST":
+        return JsonResponse({"message": "Method Not Allowed"}, status=405)
+
+    result = metadata_services.approve_financial_meta_version(version_id)
+    if result is None:
+        return JsonResponse({"message": "version not found"}, status=404)
+    return JsonResponse(result)

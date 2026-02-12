@@ -29,6 +29,14 @@
                     {% csrf_token %}
                     <button type="submit">적재</button>
                 </form>
+                <form method="post" action="/management/raw-files/{{ item.id }}/normalize" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">정규화</button>
+                </form>
+                <form method="post" action="/management/raw-files/{{ item.id }}/eda" style="display:inline;">
+                    {% csrf_token %}
+                    <button type="submit">EDA</button>
+                </form>
             </td>
         </tr>
         {% endfor %}
@@ -39,3 +47,4 @@
 {% endif %}
 {% include "components/pagination.html" %}
 {% endblock %}
+

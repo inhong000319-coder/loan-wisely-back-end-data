@@ -42,3 +42,31 @@ def list_financial_meta(request, params=None):
     resp = requests.get(url, headers=_headers(request), params=params, timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
     return unwrap_api_response(resp)
+
+
+def create_credit_meta_version(request, payload):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/credit-dictionary/versions"
+    resp = requests.post(url, headers=_headers(request), json=payload, timeout=settings.SPRING_TIMEOUT_SECS)
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def approve_credit_meta_version(request, version_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/credit-dictionary/versions/{version_id}/approve"
+    resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def create_financial_meta_version(request, payload):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/financial-meta/versions"
+    resp = requests.post(url, headers=_headers(request), json=payload, timeout=settings.SPRING_TIMEOUT_SECS)
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def approve_financial_meta_version(request, version_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/metadata/financial-meta/versions/{version_id}/approve"
+    resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
+    resp.raise_for_status()
+    return unwrap_api_response(resp)

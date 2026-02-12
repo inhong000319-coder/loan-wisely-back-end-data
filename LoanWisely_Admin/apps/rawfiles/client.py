@@ -1,6 +1,9 @@
+﻿import logging
 import requests
 from django.conf import settings
 from apps.common.api import unwrap_api_response
+
+logger = logging.getLogger(__name__)
 
 
 def _auth_header(request):
@@ -56,3 +59,21 @@ def ingest_raw_file(request, upload_id):
     resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
     return unwrap_api_response(resp)
+
+
+def normalize_raw_file(request, upload_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/raw-files/{upload_id}/normalize"
+    resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
+    logger.info('SPRING normalize status=%s body=%s', resp.status_code, (resp.text or '')[:2000])
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+def eda_raw_file(request, upload_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/raw-files/{upload_id}/eda"
+    resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
+    logger.info('SPRING eda status=%s body=%s', resp.status_code, (resp.text or '')[:2000])
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+

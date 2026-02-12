@@ -35,3 +35,39 @@ def get_recommendation_detail(request, recommendation_id):
     resp = requests.get(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
     resp.raise_for_status()
     return unwrap_api_response(resp)
+
+
+def get_event_logs(request, product_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/recommendations/event-logs"
+    resp = requests.get(
+        url,
+        headers=_headers(request),
+        params={"productId": product_id},
+        timeout=settings.SPRING_TIMEOUT_SECS,
+    )
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def get_reject_logs(request, request_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/recommendations/reject-logs"
+    resp = requests.get(
+        url,
+        headers=_headers(request),
+        params={"requestId": request_id},
+        timeout=settings.SPRING_TIMEOUT_SECS,
+    )
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def get_exclusion_reasons(request, result_id):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/recommendations/exclusion-reasons"
+    resp = requests.get(
+        url,
+        headers=_headers(request),
+        params={"resultId": result_id},
+        timeout=settings.SPRING_TIMEOUT_SECS,
+    )
+    resp.raise_for_status()
+    return unwrap_api_response(resp)

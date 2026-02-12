@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+﻿{% extends "base.html" %}
 
-{% block title %}배포 히스토리{% endblock %}
+{% block title %}諛고룷 ?덉뒪?좊━{% endblock %}
 
 {% block content %}
-<h2>배포 히스토리</h2>
+<h2>諛고룷 ?덉뒪?좊━</h2>
 
 {% if error_message %}
   <p class="error">{{ error_message }}</p>
@@ -12,12 +12,12 @@
 <table class="table">
   <thead>
     <tr>
-      <th>정책 ID</th>
-      <th>이전 정책</th>
-      <th>액션</th>
-      <th>사유</th>
-      <th>배포자</th>
-      <th>배포 시각</th>
+      <th>?뺤콉 ID</th>
+      <th>?댁쟾 ?뺤콉</th>
+      <th>?≪뀡</th>
+      <th>?ъ쑀</th>
+      <th>諛고룷??/th>
+      <th>諛고룷 ?쒓컖</th>
     </tr>
   </thead>
   <tbody>
@@ -32,11 +32,12 @@
       </tr>
     {% empty %}
       <tr>
-        <td colspan="6">히스토리가 없습니다.</td>
+        <td colspan="6">?덉뒪?좊━媛 ?놁뒿?덈떎.</td>
       </tr>
     {% endfor %}
   </tbody>
 </table>
 
-<a class="btn" href="/management/policies/{{ policy_id }}/">돌아가기</a>
+<a class="btn" href="/management/policies/{{ policy_id }}/">?뚯븘媛湲?/a>
 {% endblock %}
+

@@ -1,4 +1,4 @@
-from django.conf import settings
+﻿from django.conf import settings
 from . import client
 
 
@@ -31,3 +31,15 @@ def ingest_raw_file(request, upload_id):
     if settings.USE_MOCK_DATA:
         return {"inserted": 0, "updated": 0}
     return client.ingest_raw_file(request, upload_id)
+
+
+def normalize_raw_file(request, upload_id):
+    if settings.USE_MOCK_DATA:
+        return {"normalized": 0}
+    return client.normalize_raw_file(request, upload_id)
+
+
+def eda_raw_file(request, upload_id):
+    if settings.USE_MOCK_DATA:
+        return {"eda_run_id": None}
+    return client.eda_raw_file(request, upload_id)

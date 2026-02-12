@@ -1,4 +1,4 @@
-from django.urls import path
+﻿from django.urls import path
 from . import views
 
 urlpatterns = [
@@ -6,4 +6,6 @@ urlpatterns = [
     path("upload", views.rawfile_upload, name="rawfile_upload"),
     path("<int:upload_id>/validate", views.rawfile_validate, name="rawfile_validate"),
     path("<int:upload_id>/ingest", views.rawfile_ingest, name="rawfile_ingest"),
+    path("<int:upload_id>/normalize", views.rawfile_normalize, name="rawfile_normalize"),
+    path("<int:upload_id>/eda", views.rawfile_eda, name="rawfile_eda"),
 ]

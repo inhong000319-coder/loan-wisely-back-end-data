@@ -1,4 +1,4 @@
-﻿from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from apps.common.permissions import require_roles, ROLE_POLICY_APPROVER, ROLE_POLICY_WRITER, ROLE_SUPER_ADMIN
 from apps.common.responses import render_request_exception

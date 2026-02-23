@@ -1,4 +1,4 @@
-﻿from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from apps.common.responses import render_request_exception
 from apps.common.pagination import paginate

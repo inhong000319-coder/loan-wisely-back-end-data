@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 from urllib.parse import urlencode
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.conf import settings

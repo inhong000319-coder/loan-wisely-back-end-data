@@ -1,4 +1,4 @@
-﻿# Admin API Spec (Draft, Mock)
+# Admin API Spec (Draft, Mock)
 
 This document defines **temporary JSON structures** for Django Admin integration.
 Replace with final Spring responses when available.

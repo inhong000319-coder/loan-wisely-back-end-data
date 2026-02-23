@@ -1,4 +1,4 @@
-﻿import requests
+import requests
 from django.conf import settings
 from apps.common.api import unwrap_api_response
 

@@ -71,3 +71,31 @@ def get_exclusion_reasons(request, result_id):
     )
     resp.raise_for_status()
     return unwrap_api_response(resp)
+
+
+def get_recommendation_es_search(request, user_id, policy_version, keyword, date_from, date_to, page, size):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/es/recommend-histories"
+    params = {
+        "userId": user_id or None,
+        "policyVersion": policy_version or None,
+        "keyword": keyword or None,
+        "from": date_from or None,
+        "to": date_to or None,
+        "page": page,
+        "size": size,
+    }
+    resp = requests.get(
+        url,
+        headers=_headers(request),
+        params=params,
+        timeout=settings.SPRING_TIMEOUT_SECS,
+    )
+    resp.raise_for_status()
+    return unwrap_api_response(resp)
+
+
+def post_recommendation_es_reindex(request):
+    url = f"{settings.SPRING_BASE_URL}/api/admin/es/reindex"
+    resp = requests.post(url, headers=_headers(request), timeout=settings.SPRING_TIMEOUT_SECS)
+    resp.raise_for_status()
+    return unwrap_api_response(resp)

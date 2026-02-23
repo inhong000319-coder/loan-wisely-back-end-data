@@ -2,34 +2,34 @@
 
 {% block content %}
 <div class="page-header">
-    <h2>異붿쿇 ?곸꽭</h2>
-    <p class="description">recommendationId濡?異붿쿇 寃곌낵 諛?異붿젙 ?곸꽭瑜?議고쉶?⑸땲??</p>
+    <h2>추천 상세</h2>
+    <p class="description">recommendationId로 추천 결과 및 추정 상세를 조회합니다.</p>
 </div>
 
 <form method="get" class="form-card" style="margin-bottom: 24px;">
     <div class="form-row">
         <label for="reco-id">recommendationId</label>
-        <input id="reco-id" name="id" value="{{ recommendation_id }}" placeholder="?? 123" />
-        <button class="btn primary" type="submit">議고쉶</button>
+        <input id="reco-id" name="id" value="{{ recommendation_id }}" placeholder="예: 123" />
+        <button class="btn primary" type="submit">조회</button>
     </div>
 </form>
 
 {% if detail %}
     <div class="card">
-        <h3>?붿빟</h3>
+        <h3>요약</h3>
         <p>{{ detail.explain.summary }}</p>
     </div>
 
     <div class="card" style="margin-top: 16px;">
-        <h3>異붿쿇 ?곹뭹</h3>
+        <h3>추천 상품</h3>
         <table class="table">
             <thead>
                 <tr>
-                    <th>?곹뭹紐?/th>
-                    <th>湲곌?</th>
-                    <th>湲덈━</th>
-                    <th>?쒕룄</th>
-                    <th>?곹빀??/th>
+                    <th>상품명</th>
+                    <th>기관</th>
+                    <th>금리</th>
+                    <th>한도</th>
+                    <th>적합도</th>
                 </tr>
             </thead>
             <tbody>
@@ -44,7 +44,7 @@
                 <tr>
                     <td colspan="5">
                         <div style="padding: 8px 0;">
-                            <strong>異붿젙 ?곸꽭</strong>
+                            <strong>추정 상세</strong>
                             {% if item.estimationDetails %}
                                 <ul class="inline-list">
                                 {% for detailItem in item.estimationDetails %}
@@ -54,7 +54,7 @@
                                 {% endfor %}
                                 </ul>
                             {% else %}
-                                <div class="muted">異붿젙 ?곸꽭 ?놁쓬</div>
+                                <div class="muted">추정 상세 없음</div>
                             {% endif %}
                         </div>
                     </td>

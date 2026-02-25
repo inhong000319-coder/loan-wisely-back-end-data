@@ -69,6 +69,7 @@ def exclusion_reasons(request):
 
 def recommendation_es_search(request):
     user_id = request.GET.get("user_id", "").strip()
+    login_id = request.GET.get("login_id", "").strip()
     policy_version = request.GET.get("policy_version", "").strip()
     keyword = request.GET.get("keyword", "").strip()
     date_from = request.GET.get("from", "").strip()
@@ -77,11 +78,12 @@ def recommendation_es_search(request):
     size = request.GET.get("size", "20").strip()
 
     result = None
-    if any([user_id, policy_version, keyword, date_from, date_to]):
+    if any([user_id, login_id, policy_version, keyword, date_from, date_to]):
         try:
             result = services.fetch_recommendation_es_search(
                 request,
                 user_id=user_id,
+                login_id=login_id,
                 policy_version=policy_version,
                 keyword=keyword,
                 date_from=date_from,
@@ -94,6 +96,7 @@ def recommendation_es_search(request):
 
     context = {
         "user_id": user_id,
+        "login_id": login_id,
         "policy_version": policy_version,
         "keyword": keyword,
         "date_from": date_from,

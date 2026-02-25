@@ -4,7 +4,7 @@
 <style>
     .filter-form .filter-grid {
         display: grid;
-        grid-template-columns: repeat(4, minmax(140px, 1fr)) minmax(320px, 2fr);
+        grid-template-columns: repeat(5, minmax(140px, 1fr)) minmax(320px, 2fr);
         gap: 10px 12px;
         align-items: end;
     }
@@ -29,14 +29,14 @@
         flex-wrap: wrap;
     }
     .filter-form .date-range {
-        min-width: 260px;
+        min-width: 220px;
         grid-column: span 2;
     }
     .filter-form .date-range .inline {
         flex-wrap: nowrap;
     }
     .filter-form .date-range input[type="date"] {
-        min-width: 120px;
+        min-width: 100px;
         height: 30px;
     }
     .filter-form .actions {
@@ -45,8 +45,12 @@
         margin-left: 8px;
     }
     .filter-form .actions .btn {
-        height: 30px;
-        padding: 0 12px;
+        height: 34px;
+        min-width: 56px;
+        padding: 0 16px;
+        font-weight: 700;
+        line-height: 34px;
+        white-space: nowrap;
     }
     .pagination {
         display: flex;
@@ -83,9 +87,35 @@
         border: 1px solid #b6b6b6;
         border-radius: 8px;
         padding: 12px;
+        background: #ffffff;
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
     }
     .result-box .result-title {
         margin: 0 0 8px;
+    }
+    .result-box table {
+        margin: 12px 0 0;
+        max-width: none;
+        width: 100%;
+    }
+    .filter-form input[type="text"],
+    .filter-form input[type="search"],
+    .filter-form input[type="date"],
+    .filter-form input:not([type]) {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 8px 10px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .filter-form input[type="text"]:focus,
+    .filter-form input[type="search"]:focus,
+    .filter-form input[type="date"]:focus,
+    .filter-form input:not([type]):focus {
+        outline: none;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
     }
 </style>
 
@@ -107,6 +137,10 @@
         <div class="field">
             <label for="user-id">사용자 ID</label>
             <input id="user-id" name="user_id" value="{{ user_id }}" placeholder="예: 1001" />
+        </div>
+        <div class="field">
+            <label for="login-id">로그인 ID</label>
+            <input id="login-id" name="login_id" value="{{ login_id }}" placeholder="예: user001" />
         </div>
         <div class="field">
             <label for="policy-version">정책 Version</label>

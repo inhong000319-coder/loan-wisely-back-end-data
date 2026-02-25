@@ -11,7 +11,7 @@ def login_view(request):
 
     username = request.POST.get("username", "")
     password = request.POST.get("password", "")
-    next_url = request.POST.get("next") or request.GET.get("next") or f"{settings.MANAGEMENT_BASE_PATH}/policies/"
+    next_url = request.POST.get("next") or request.GET.get("next") or f"{settings.MANAGEMENT_BASE_PATH}/dashboard/"
 
     try:
         result = login_admin(username=username, password=password, trace_id=getattr(request, "trace_id", ""))

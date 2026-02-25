@@ -16,6 +16,7 @@ INSTALLED_APPS = [
 
     "apps.common",
     "apps.auth",
+    "apps.dashboard",
     "apps.policies",
     "apps.metadata",
     "apps.approvals",

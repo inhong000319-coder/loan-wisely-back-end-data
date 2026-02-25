@@ -42,6 +42,7 @@ class JwtAuthMiddleware:
         request.actor = actor
         request.actor_id = actor.get("id")
         request.actor_roles = actor.get("roles", [])
+        request.admin_token = token
 
         response = self.get_response(request)
         response["X-Trace-Id"] = request.trace_id

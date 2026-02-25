@@ -73,10 +73,11 @@ def get_exclusion_reasons(request, result_id):
     return unwrap_api_response(resp)
 
 
-def get_recommendation_es_search(request, user_id, policy_version, keyword, date_from, date_to, page, size):
+def get_recommendation_es_search(request, user_id, login_id, policy_version, keyword, date_from, date_to, page, size):
     url = f"{settings.SPRING_BASE_URL}/api/admin/es/recommend-histories"
     params = {
         "userId": user_id or None,
+        "loginId": login_id or None,
         "policyVersion": policy_version or None,
         "keyword": keyword or None,
         "from": date_from or None,

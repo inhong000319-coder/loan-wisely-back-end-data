@@ -3,15 +3,17 @@ from django.shortcuts import redirect
 
 
 def root_redirect(request):
-    return redirect("/management/policies/")
+    return redirect("/management/dashboard/")
 
 
 urlpatterns = [
     path("", root_redirect),
     path("management/auth/", include("apps.auth.urls")),
+    path("management/dashboard/", include("apps.dashboard.urls")),
     path("management/policies/", include("apps.policies.urls")),
     path("management/metadata/", include("apps.metadata.urls")),
     path("management/approvals/", include("apps.approvals.urls")),
     path("management/audits/", include("apps.audits.urls")),
+    path("management/recommendations/", include("apps.recommendations.urls")),
     path("management/raw-files/", include("apps.rawfiles.urls")),
 ]

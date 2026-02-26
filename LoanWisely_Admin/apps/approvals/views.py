@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from apps.common.permissions import require_roles, ROLE_POLICY_APPROVER, ROLE_SUPER_ADMIN
 from apps.common.responses import render_request_exception
+from apps.common.pagination import paginate
 from requests import RequestException
 from . import services
 
@@ -11,7 +12,9 @@ def approval_list(request):
         data = services.get_approvals(request)
     except RequestException as exc:
         return render_request_exception(request, exc)
-    return render(request, "approvals/list.html", {"items": data})
+    items = data.get("items") if isinstance(data, dict) else data
+    context = paginate(request, items, per_page=20)
+    return render(request, "approvals/list.html", context)
 
 
 @require_roles(ROLE_POLICY_APPROVER, ROLE_SUPER_ADMIN)

@@ -1,4 +1,4 @@
-﻿{% extends "base/layout.html" %}
+{% extends "base/layout.html" %}
 {% block title %}정책 상세{% endblock %}
 {% block content %}
 <h2>정책 상세</h2>
@@ -74,6 +74,7 @@
     <div class="button-bar">
         <a class="btn primary" href="/management/policies/{{ policy.id }}/approve">승인</a>
         <a class="btn primary" href="/management/policies/{{ policy.id }}/deploy">배포</a>
+        <a class="btn" href="/management/policies/{{ policy.id }}/deploy-history">배포 히스토리</a>
     </div>
     {% endif %}
 </div>
@@ -89,3 +90,4 @@
 {% endif %}
 
 {% endblock %}
+

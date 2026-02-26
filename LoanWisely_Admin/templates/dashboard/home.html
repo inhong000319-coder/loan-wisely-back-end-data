@@ -1,0 +1,70 @@
+{% extends "base/layout.html" %}
+
+{% block title %}대시보드{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h2>관리 홈</h2>
+        <p class="description">서비스 현황과 신규 가입자를 한눈에 확인합니다.</p>
+    </div>
+</div>
+
+{% if dashboard_error %}
+<div class="message">{{ dashboard_error }}</div>
+{% endif %}
+
+<div class="dashboard">
+    <div class="dashboard-cards">
+        <div class="metric-card">
+            <div class="metric-label">총 회원 수</div>
+            <div class="metric-value">{{ user_count|default:0 }}</div>
+            <div class="metric-sub">DB 기준 사용자 수</div>
+        </div>
+        <div class="metric-card secondary">
+            <div class="metric-label">최근 7일 방문 추이</div>
+            <div class="metric-value">{{ visit_stats|length }}일</div>
+            <div class="metric-sub">홈페이지 조회수 요약</div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="card">
+            <h3 class="card-title">날짜별 홈페이지 조회수</h3>
+            <div class="chart">
+                {% for item in visit_stats %}
+                <div class="chart-bar">
+                    <div class="bar">
+                        <div class="bar-fill" style="height: {{ item.percent }}%;"></div>
+                    </div>
+                    <div class="label">{{ item.date|slice:"5:10" }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="card">
+            <h3 class="card-title">신규 가입 회원</h3>
+            <ul class="member-list">
+                {% for user in new_users %}
+                <li class="member-item">
+                    <div class="member-avatar">{{ user.username|default:"?"|slice:"0:1"|upper }}</div>
+                    <div>
+                        <div class="member-name">{{ user.username|default:"-" }}</div>
+                        <div class="member-meta">ID {{ user.user_id|default:"-" }} · {{ user.created_at|default:"-" }}</div>
+                    </div>
+                </li>
+                {% empty %}
+                <li class="member-item">
+                    <div class="member-avatar">-</div>
+                    <div>
+                        <div class="member-name">신규 회원 없음</div>
+                        <div class="member-meta">최근 가입 정보가 없습니다.</div>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

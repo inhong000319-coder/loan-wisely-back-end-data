@@ -1,4 +1,4 @@
-﻿import uuid
+import uuid
 from urllib.parse import urlencode
 from django.http import HttpResponseRedirect, HttpResponseForbidden
 from django.conf import settings
@@ -22,7 +22,9 @@ class JwtAuthMiddleware:
             request.actor = {"id": "dev", "roles": ["SUPER_ADMIN"]}
             request.actor_id = "dev"
             request.actor_roles = ["SUPER_ADMIN"]
-            return self.get_response(request)
+            response = self.get_response(request)
+            response["X-Auth-Bypass"] = "1"
+            return response
 
         if request.path.startswith(PUBLIC_PATH_PREFIXES):
             return self.get_response(request)
@@ -40,6 +42,7 @@ class JwtAuthMiddleware:
         request.actor = actor
         request.actor_id = actor.get("id")
         request.actor_roles = actor.get("roles", [])
+        request.admin_token = token
 
         response = self.get_response(request)
         response["X-Trace-Id"] = request.trace_id

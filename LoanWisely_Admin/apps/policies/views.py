@@ -1,7 +1,8 @@
-﻿from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect
 from django.contrib import messages
 from apps.common.permissions import require_roles, ROLE_POLICY_APPROVER, ROLE_POLICY_WRITER, ROLE_SUPER_ADMIN
 from apps.common.responses import render_request_exception
+from apps.common.pagination import paginate
 from requests import RequestException
 from . import services
 
@@ -11,7 +12,9 @@ def policy_list(request):
         data = services.get_policy_list(request)
     except RequestException as exc:
         return render_request_exception(request, exc)
-    return render(request, "policies/list.html", {"items": data})
+    items = data.get("items") if isinstance(data, dict) else data
+    context = paginate(request, items, per_page=20)
+    return render(request, "policies/list.html", context)
 
 
 @require_roles(ROLE_POLICY_WRITER, ROLE_SUPER_ADMIN)
@@ -97,6 +100,17 @@ def policy_deploy(request, policy_id):
             "success_message": "정책이 배포되었습니다.",
         })
     return render(request, "policies/deploy.html", {"policy_id": policy_id})
+
+
+def policy_deploy_history(request, policy_id):
+    try:
+        items = services.get_deploy_history(request, policy_id)
+    except RequestException as exc:
+        return render_request_exception(request, exc)
+    return render(request, "policies/deploy_history.html", {
+        "policy_id": policy_id,
+        "items": items,
+    })
 
 
 def _split_lines(value: str):

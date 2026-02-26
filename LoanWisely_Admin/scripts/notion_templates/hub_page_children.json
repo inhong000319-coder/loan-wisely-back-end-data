@@ -1,0 +1,131 @@
+[
+  {
+    "object": "block",
+    "type": "heading_1",
+    "heading_1": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "운영 문서 허브"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "object": "block",
+    "type": "paragraph",
+    "paragraph": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "이 페이지는 LOAN WISELY 운영/테스트 관련 문서와 데이터베이스 템플릿을 모아두는 허브입니다."
+          }
+        }
+      ]
+    }
+  },
+  {
+    "object": "block",
+    "type": "heading_2",
+    "heading_2": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "운영 체크리스트"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "object": "block",
+    "type": "to_do",
+    "to_do": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "백엔드/프론트 배포 버전 기록"
+          }
+        }
+      ],
+      "checked": false
+    }
+  },
+  {
+    "object": "block",
+    "type": "to_do",
+    "to_do": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "Flyway 마이그레이션 적용 이력 확인"
+          }
+        }
+      ],
+      "checked": false
+    }
+  },
+  {
+    "object": "block",
+    "type": "to_do",
+    "to_do": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "추천 API/로그인 API 스모크 테스트"
+          }
+        }
+      ],
+      "checked": false
+    }
+  },
+  {
+    "object": "block",
+    "type": "heading_2",
+    "heading_2": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "참고 링크"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "object": "block",
+    "type": "bulleted_list_item",
+    "bulleted_list_item": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "테스트 시나리오 DB (자동 생성 대상)"
+          }
+        }
+      ]
+    }
+  },
+  {
+    "object": "block",
+    "type": "bulleted_list_item",
+    "bulleted_list_item": {
+      "rich_text": [
+        {
+          "type": "text",
+          "text": {
+            "content": "장애 대응 템플릿 / 회고 템플릿 (추가 예정)"
+          }
+        }
+      ]
+    }
+  }
+]

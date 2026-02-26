@@ -1,0 +1,357 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<style>
+    .filter-form .filter-grid {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(140px, 1fr)) minmax(320px, 2fr);
+        gap: 10px 12px;
+        align-items: end;
+    }
+    .filter-form .field {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+    .filter-form .field label {
+        font-weight: 600;
+    }
+    .filter-form input[type="text"],
+    .filter-form input[type="search"],
+    .filter-form input[type="date"],
+    .filter-form input:not([type]) {
+        height: 30px;
+    }
+    .filter-form .inline {
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        flex-wrap: wrap;
+    }
+    .filter-form .date-range {
+        min-width: 220px;
+        grid-column: span 2;
+    }
+    .filter-form .date-range .inline {
+        flex-wrap: nowrap;
+    }
+    .filter-form .date-range input[type="date"] {
+        min-width: 100px;
+        height: 30px;
+    }
+    .filter-form .actions {
+        display: inline-flex;
+        align-items: center;
+        margin-left: 8px;
+    }
+    .filter-form .actions .btn {
+        height: 34px;
+        min-width: 56px;
+        padding: 0 16px;
+        font-weight: 700;
+        line-height: 34px;
+        white-space: nowrap;
+    }
+    .pagination {
+        display: flex;
+        gap: 6px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin-bottom: 12px;
+    }
+    .pagination a,
+    .pagination span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 30px;
+        height: 30px;
+        padding: 0 8px;
+        border: 1px solid #d0d0d0;
+        border-radius: 6px;
+        text-decoration: none;
+        color: inherit;
+        font-size: 12px;
+    }
+    .pagination .active {
+        background: #2563eb;
+        color: #fff;
+        border-color: #2563eb;
+        font-weight: 600;
+    }
+    .pagination .disabled {
+        color: #999;
+        border-color: #e2e2e2;
+    }
+    .result-box {
+        border: 1px solid #b6b6b6;
+        border-radius: 8px;
+        padding: 12px;
+        background: #ffffff;
+        box-shadow: 0 6px 16px rgba(15, 23, 42, 0.06);
+    }
+    .result-box .result-title {
+        margin: 0 0 8px;
+    }
+    .result-box table {
+        margin: 12px 0 0;
+        max-width: none;
+        width: 100%;
+    }
+    .filter-form input[type="text"],
+    .filter-form input[type="search"],
+    .filter-form input[type="date"],
+    .filter-form input:not([type]) {
+        background: #ffffff;
+        border: 1px solid #d1d5db;
+        border-radius: 10px;
+        padding: 8px 10px;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+        transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    .filter-form input[type="text"]:focus,
+    .filter-form input[type="search"]:focus,
+    .filter-form input[type="date"]:focus,
+    .filter-form input:not([type]):focus {
+        outline: none;
+        border-color: #60a5fa;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+    }
+</style>
+
+<div class="page-header">
+    <div class="header-row" style="display:flex; align-items:flex-start; justify-content:space-between; gap:12px; flex-wrap:wrap;">
+        <div>
+            <h2>추천 이력 필터 조회</h2>
+            <p class="description">Elastic Search 추천 이력을 조건으로 조회합니다. (최소 한 항목 데이터 필수)</p>
+        </div>
+        <form method="post" action="/management/recommendations/es-reindex" onsubmit="return confirm('ES 재색인을 실행할까요?');">
+            {% csrf_token %}
+            <button class="btn primary" type="submit">ES 재색인</button>
+        </form>
+    </div>
+</div>
+
+<form method="get" class="form-card filter-form" style="margin-bottom: 24px;">
+    <div class="filter-grid">
+        <div class="field">
+            <label for="user-id">사용자 ID</label>
+            <input id="user-id" name="user_id" value="{{ user_id }}" placeholder="예: 1001" />
+        </div>
+        <div class="field">
+            <label for="login-id">로그인 ID</label>
+            <input id="login-id" name="login_id" value="{{ login_id }}" placeholder="예: user001" />
+        </div>
+        <div class="field">
+            <label for="policy-version">정책 Version</label>
+            <input id="policy-version" name="policy_version" value="{{ policy_version }}" placeholder="예: v1.0.0" />
+        </div>
+        <div class="field">
+            <label for="keyword">설명</label>
+            <input id="keyword" name="keyword" value="{{ keyword }}" placeholder="요약/상태 키워드" />
+        </div>
+        <div class="field date-range">
+            <label for="date-from">추천 날짜</label>
+            <div class="inline">
+                <input id="date-from" name="from" type="date" value="{{ date_from }}" />
+                <span class="muted">~</span>
+                <input id="date-to" name="to" type="date" value="{{ date_to }}" />
+                <div class="actions">
+                    <button class="btn primary" type="submit">조회</button>
+                </div>
+            </div>
+        </div>
+        <input id="page" name="page" type="hidden" value="{{ page|default:'0' }}" />
+        <input id="size" name="size" type="hidden" value="{{ size|default:'20' }}" />
+    </div>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var fromInput = document.getElementById("date-from");
+        var toInput = document.getElementById("date-to");
+        var pageInput = document.getElementById("page");
+        var sizeInput = document.getElementById("size");
+        var form = document.querySelector(".filter-form");
+        if (!fromInput || !toInput) {
+            return;
+        }
+
+        var getToday = function () {
+            var now = new Date();
+            return [
+                String(now.getFullYear()),
+                String(now.getMonth() + 1).padStart(2, "0"),
+                String(now.getDate()).padStart(2, "0"),
+            ].join("-");
+        };
+
+        var syncLimits = function () {
+            var today = getToday();
+            fromInput.setAttribute("max", today);
+            toInput.setAttribute("max", today);
+            if (fromInput.value) {
+                toInput.min = fromInput.value;
+            } else {
+                toInput.removeAttribute("min");
+            }
+            if (toInput.value) {
+                fromInput.max = toInput.value;
+            } else {
+                fromInput.removeAttribute("max");
+            }
+        };
+
+        var normalizeOrder = function () {
+            if (fromInput.value && toInput.value && toInput.value < fromInput.value) {
+                toInput.value = fromInput.value;
+            }
+        };
+
+        var clampToToday = function () {
+            var max = getToday();
+            fromInput.setAttribute("max", max);
+            toInput.setAttribute("max", max);
+            if (max) {
+                if (fromInput.value && fromInput.value > max) {
+                    fromInput.value = max;
+                }
+                if (toInput.value && toInput.value > max) {
+                    toInput.value = max;
+                }
+            }
+        };
+
+        syncLimits();
+        clampToToday();
+        normalizeOrder();
+        fromInput.addEventListener("input", function () {
+            clampToToday();
+            normalizeOrder();
+            syncLimits();
+        });
+        fromInput.addEventListener("change", function () {
+            clampToToday();
+            normalizeOrder();
+            syncLimits();
+        });
+        toInput.addEventListener("input", function () {
+            clampToToday();
+            normalizeOrder();
+            syncLimits();
+        });
+        toInput.addEventListener("change", function () {
+            clampToToday();
+            normalizeOrder();
+            syncLimits();
+        });
+        if (form) {
+            form.addEventListener("submit", function () {
+                clampToToday();
+                normalizeOrder();
+                syncLimits();
+            });
+        }
+
+        if (pageInput && sizeInput) {
+            if (!pageInput.value) {
+                pageInput.value = "0";
+            }
+            if (!sizeInput.value) {
+                sizeInput.value = "20";
+            }
+        }
+
+        var pagination = document.getElementById("pagination");
+        if (pagination && sizeInput && pageInput) {
+            var total = parseInt(pagination.getAttribute("data-total") || "0", 10);
+            var size = Math.max(parseInt(sizeInput.value || "20", 10), 1);
+            var page = Math.max(parseInt(pageInput.value || "0", 10), 0);
+            var totalPages = Math.ceil(total / size);
+            var maxButtons = 9;
+            if (totalPages <= 1) {
+                return;
+            }
+
+            var params = new URLSearchParams(window.location.search);
+            params.set("size", String(size));
+
+            var makeLink = function (label, targetPage, isActive, isDisabled) {
+                if (isDisabled) {
+                    var span = document.createElement("span");
+                    span.className = "disabled";
+                    span.textContent = label;
+                    return span;
+                }
+                var a = document.createElement("a");
+                params.set("page", String(targetPage));
+                a.href = window.location.pathname + "?" + params.toString();
+                a.textContent = label;
+                if (isActive) {
+                    a.className = "active";
+                }
+                return a;
+            };
+
+            var start = Math.max(0, page - Math.floor(maxButtons / 2));
+            var end = Math.min(totalPages - 1, start + maxButtons - 1);
+            start = Math.max(0, end - maxButtons + 1);
+
+            pagination.appendChild(makeLink("이전", page - 1, false, page === 0));
+            for (var i = start; i <= end; i += 1) {
+                pagination.appendChild(makeLink(String(i + 1), i, i === page, false));
+            }
+            pagination.appendChild(makeLink("다음", page + 1, false, page >= totalPages - 1));
+        }
+    });
+</script>
+
+{% if result is not None %}
+    <div class="card">
+        <div class="result-box">
+            <h3 class="result-title">조회 결과 : 총 {{ result.total|default:0 }} 건</h3>
+            <div
+                id="pagination"
+                class="pagination"
+                data-total="{{ result.total|default:0 }}"
+            ></div>
+            {% if result.items %}
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>recommendId</th>
+                        <th>userId</th>
+                        <th>policyVersion</th>
+                        <th>state</th>
+                        <th>summary</th>
+                        <th>createdAt</th>
+                        <th>recoRequestId</th>
+                        <th>recoResultId</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for item in result.items %}
+                    <tr>
+                        <td>
+                            <a href="/management/recommendations/?id={{ item.recommendId }}">
+                                {{ item.recommendId }}
+                            </a>
+                        </td>
+                        <td>{{ item.userId }}</td>
+                        <td>{{ item.policyVersion }}</td>
+                        <td>{{ item.recommendState }}</td>
+                        <td>{{ item.explainSummary }}</td>
+                        <td>{{ item.createdAt }}</td>
+                        <td>{{ item.recoRequestId }}</td>
+                        <td>{{ item.recoResultId }}</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {% else %}
+            <div class="muted">결과가 없습니다.</div>
+            {% endif %}
+        </div>
+    </div>
+{% endif %}
+{% endblock %}

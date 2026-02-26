@@ -1,4 +1,4 @@
-﻿from pathlib import Path
+from pathlib import Path
 import os
 
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -16,10 +16,12 @@ INSTALLED_APPS = [
 
     "apps.common",
     "apps.auth",
+    "apps.dashboard",
     "apps.policies",
     "apps.metadata",
     "apps.approvals",
     "apps.audits",
+    "apps.recommendations",
     "apps.rawfiles",
 ]
 
@@ -74,6 +76,7 @@ SPRING_TIMEOUT_SECS = int(os.environ.get("SPRING_TIMEOUT_SECS", "10"))
 SPRING_ADMIN_TOKEN_HEADER = os.environ.get("SPRING_ADMIN_TOKEN_HEADER", "Authorization")
 SPRING_ADMIN_LOGIN_PATH = os.environ.get("SPRING_ADMIN_LOGIN_PATH", "/api/admin/auth/login")
 SPRING_ADMIN_VERIFY_PATH = os.environ.get("SPRING_ADMIN_VERIFY_PATH", "/api/admin/auth/verify")
+SPRING_ADMIN_TOKEN = os.environ.get("SPRING_ADMIN_TOKEN", "")
 
 JWT_COOKIE_NAME = os.environ.get("JWT_COOKIE_NAME", "admin_jwt")
 JWT_HEADER_NAME = os.environ.get("JWT_HEADER_NAME", "Authorization")

@@ -1,17 +1,20 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{% block title %}LoanWisely Admin{% endblock %}</title>
-    <link rel="stylesheet" href="/static/css/app.css" />
+    <link rel="stylesheet" href="/static/css/app.css?v=20260211-1" />
 </head>
-<body>
-    {% include "base/sidebar.html" %}
+<body class="{% if '/management/auth/' in request.path %}auth-page{% endif %}">
+    {% if '/management/auth/' not in request.path %}
+        {% include "base/sidebar.html" %}
+    {% endif %}
 
-    <main class="content">
+    <main class="content{% if '/management/auth/' in request.path %} auth-content{% endif %}">
         {% include "base/messages.html" %}
         {% block content %}{% endblock %}
     </main>
 </body>
 </html>
+

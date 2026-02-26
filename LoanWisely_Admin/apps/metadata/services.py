@@ -26,3 +26,34 @@ def get_financial_meta_list(request, params=None):
     if settings.USE_MOCK_DATA:
         return _mock_financial_meta_list()
     return client.list_financial_meta(request, params=params)
+
+
+def create_credit_meta_version(request, version_label=None, base_version_id=None):
+    if settings.USE_MOCK_DATA:
+        return {"version_id": "CR-MOCK-001", "status": "DRAFT"}
+    payload = {
+        "version_label": version_label,
+        "base_version_id": base_version_id,
+    }
+    return client.create_credit_meta_version(request, payload)
+
+
+def approve_credit_meta_version(request, version_id):
+    if settings.USE_MOCK_DATA:
+        return {"version_id": version_id, "status": "APPROVED"}
+    return client.approve_credit_meta_version(request, version_id)
+
+
+def create_financial_meta_version(request, version_label=None):
+    if settings.USE_MOCK_DATA:
+        return {"version_id": "FN-MOCK-001", "status": "DRAFT"}
+    payload = {
+        "version_label": version_label,
+    }
+    return client.create_financial_meta_version(request, payload)
+
+
+def approve_financial_meta_version(request, version_id):
+    if settings.USE_MOCK_DATA:
+        return {"version_id": version_id, "status": "APPROVED"}
+    return client.approve_financial_meta_version(request, version_id)

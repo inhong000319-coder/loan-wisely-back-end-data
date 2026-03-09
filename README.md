@@ -24,20 +24,8 @@ Spring API를 호출해 동작하는 관리자 콘솔입니다.
 - Spring Base URL 기반 프록시/브릿지 구조
 
 ## Django 구조
-- `apps/` : 도메인별 기능(auth/policies/rawfiles/approvals/audits/recommendations/metadata)
-- `templates/` : 서버 렌더링 HTML
-- `static/` : 정적 자산
-- `config/` : `settings/{base,dev,prod}.py`, URL 설정
-
-## 실행
-```bash
-python -m venv .venv
-# Windows
-.venv\Scripts\activate
-# Linux/Mac
-source .venv/bin/activate
-
-cd loanwisely_django
-set DJANGO_SETTINGS_MODULE=config.settings.dev   # Linux/Mac: export
-python manage.py runserver
+- apps/ : 도메인별 기능(auth/policies/rawfiles/approvals/audits/recommendations/metadata)
+- templates/ : 서버 렌더링 HTML
+- static/ : 정적 자산
+- config/ : settings/{base,dev,prod}.py, URL 설정
 

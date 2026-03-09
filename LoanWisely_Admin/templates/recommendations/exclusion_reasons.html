@@ -1,0 +1,51 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>추천 제외 사유</h2>
+    <p class="description">resultId로 제외 사유를 조회합니다.</p>
+</div>
+
+<form method="get" class="form-card" style="margin-bottom: 24px;">
+    <div class="form-row">
+        <label for="result-id">resultId</label>
+        <input id="result-id" name="result_id" value="{{ result_id }}" placeholder="예: 3001" />
+        <button class="btn primary" type="submit">조회</button>
+    </div>
+</form>
+
+{% if reasons is not None %}
+    <div class="card">
+        <h3>조회 결과</h3>
+        {% if reasons %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>reasonId</th>
+                    <th>resultId</th>
+                    <th>productId</th>
+                    <th>reasonCode</th>
+                    <th>reasonText</th>
+                    <th>createdAt</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for reason in reasons %}
+                <tr>
+                    <td>{{ reason.reasonId }}</td>
+                    <td>{{ reason.resultId }}</td>
+                    <td>{{ reason.productId }}</td>
+                    <td>{{ reason.reasonCode }}</td>
+                    <td>{{ reason.reasonText }}</td>
+                    <td>{{ reason.createdAt }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="muted">결과가 없습니다.</div>
+        {% endif %}
+    </div>
+    {% include "components/pagination.html" %}
+{% endif %}
+{% endblock %}

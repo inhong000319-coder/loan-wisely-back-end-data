@@ -1,0 +1,66 @@
+{
+  "Scenario ID": {
+    "title": {}
+  },
+  "Title": {
+    "rich_text": {}
+  },
+  "Priority": {
+    "select": {
+      "options": [
+        { "name": "High", "color": "red" },
+        { "name": "Medium", "color": "yellow" },
+        { "name": "Low", "color": "green" }
+      ]
+    }
+  },
+  "Scope": {
+    "select": {
+      "options": [
+        { "name": "Spring API", "color": "blue" },
+        { "name": "React UI", "color": "purple" },
+        { "name": "Integration", "color": "orange" },
+        { "name": "Security", "color": "pink" }
+      ]
+    }
+  },
+  "Status": {
+    "select": {
+      "options": [
+        { "name": "Draft", "color": "default" },
+        { "name": "Ready", "color": "blue" },
+        { "name": "Running", "color": "yellow" },
+        { "name": "PASS", "color": "green" },
+        { "name": "FAIL", "color": "red" },
+        { "name": "BLOCK", "color": "gray" }
+      ]
+    }
+  },
+  "Owner": {
+    "rich_text": {}
+  },
+  "Environment": {
+    "rich_text": {}
+  },
+  "Preconditions": {
+    "rich_text": {}
+  },
+  "Steps": {
+    "rich_text": {}
+  },
+  "Expected Result": {
+    "rich_text": {}
+  },
+  "Actual Result": {
+    "rich_text": {}
+  },
+  "Log Summary": {
+    "rich_text": {}
+  },
+  "Retest Required": {
+    "checkbox": {}
+  },
+  "Executed At": {
+    "date": {}
+  }
+}

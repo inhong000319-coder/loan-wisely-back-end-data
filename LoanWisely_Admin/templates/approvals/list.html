@@ -1,0 +1,31 @@
+{% extends "base/layout.html" %}
+{% block title %}승인 목록{% endblock %}
+{% block content %}
+<h2>승인 목록</h2>
+{% if items %}
+<table>
+    <thead>
+        <tr>
+            <th>대상 ID</th>
+            <th>유형</th>
+            <th>상태</th>
+            <th>요청일</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td><a href="/management/approvals/{{ item.target_id }}/">{{ item.target_id }}</a></td>
+            <td>{{ item.type }}</td>
+            <td><span class="badge {{ item.status|lower }}">{{ item.status }}</span></td>
+            <td>{{ item.requested_at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>표시할 승인 항목이 없습니다.</p>
+{% endif %}
+{% include "components/pagination.html" %}
+{% endblock %}
+

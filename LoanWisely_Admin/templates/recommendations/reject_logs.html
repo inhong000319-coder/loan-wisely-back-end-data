@@ -1,0 +1,51 @@
+{% extends "base/layout.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h2>추천 거절 로그</h2>
+    <p class="description">requestId로 추천 거절 로그를 조회합니다.</p>
+</div>
+
+<form method="get" class="form-card" style="margin-bottom: 24px;">
+    <div class="form-row">
+        <label for="request-id">requestId</label>
+        <input id="request-id" name="request_id" value="{{ request_id }}" placeholder="예: 2001" />
+        <button class="btn primary" type="submit">조회</button>
+    </div>
+</form>
+
+{% if logs is not None %}
+    <div class="card">
+        <h3>조회 결과</h3>
+        {% if logs %}
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>rejectId</th>
+                    <th>requestId</th>
+                    <th>productId</th>
+                    <th>rejectCode</th>
+                    <th>rejectReason</th>
+                    <th>createdAt</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for log in logs %}
+                <tr>
+                    <td>{{ log.rejectId }}</td>
+                    <td>{{ log.requestId }}</td>
+                    <td>{{ log.productId }}</td>
+                    <td>{{ log.rejectCode }}</td>
+                    <td>{{ log.rejectReason }}</td>
+                    <td>{{ log.createdAt }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="muted">결과가 없습니다.</div>
+        {% endif %}
+    </div>
+    {% include "components/pagination.html" %}
+{% endif %}
+{% endblock %}

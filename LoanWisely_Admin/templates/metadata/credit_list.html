@@ -1,0 +1,56 @@
+{% extends "base/layout.html" %}
+{% block title %}Credit 메타데이터{% endblock %}
+{% block content %}
+<h2>Credit 메타데이터</h2>
+<form method="post" action="{% url 'credit_meta_create' %}" style="margin-bottom: 12px;">
+    {% csrf_token %}
+    <label>
+        버전 라벨:
+        <input type="text" name="version_label" placeholder="예: CR-2026-003">
+    </label>
+    <label style="margin-left: 8px;">
+        기준 버전 ID:
+        <input type="number" name="base_version_id" placeholder="선택">
+    </label>
+    <button type="submit">새 버전 생성</button>
+</form>
+{% if items %}
+<table>
+    <thead>
+        <tr>
+            <th>버전 ID</th>
+            <th>상태</th>
+            <th>수정일</th>
+            <th>액션</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.version_id|default:item.versionId }}</td>
+            <td><span class="badge {{ item.status|lower }}">{{ item.status }}</span></td>
+            <td>{{ item.updated_at|default:item.updatedAt }}</td>
+            <td>
+                {% if "POLICY_APPROVER" in request.actor_roles or "SUPER_ADMIN" in request.actor_roles %}
+                    {% if item.version_id %}
+                        <form method="post" action="{% url 'credit_meta_approve' item.version_id %}" style="display:inline;">
+                            {% csrf_token %}
+                            <button type="submit">승인</button>
+                        </form>
+                    {% else %}
+                        -
+                    {% endif %}
+                {% else %}
+                    -
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>표시할 데이터가 없습니다.</p>
+{% endif %}
+{% include "components/pagination.html" %}
+{% endblock %}
+

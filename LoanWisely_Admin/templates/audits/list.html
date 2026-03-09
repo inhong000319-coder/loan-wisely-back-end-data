@@ -1,0 +1,31 @@
+{% extends "base/layout.html" %}
+{% block title %}감사 로그{% endblock %}
+{% block content %}
+<h2>감사 로그</h2>
+{% if items %}
+<table>
+    <thead>
+        <tr>
+            <th>사용자</th>
+            <th>행동</th>
+            <th>대상</th>
+            <th>일시</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in items %}
+        <tr>
+            <td>{{ item.actor }}</td>
+            <td>{{ item.action }}</td>
+            <td>{{ item.target }}</td>
+            <td>{{ item.at }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>표시할 로그가 없습니다.</p>
+{% endif %}
+{% include "components/pagination.html" %}
+{% endblock %}
+
